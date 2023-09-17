@@ -9,7 +9,7 @@ part 'today_apod_event.dart';
 part 'today_apod_state.dart';
 
 class TodayApodBloc {
-  FetchApodToday _fetchApodToday;
+  final FetchApodToday _fetchApodToday;
 
   TodayApodBloc({required FetchApodToday fetchApodToday})
       : _fetchApodToday = fetchApodToday {

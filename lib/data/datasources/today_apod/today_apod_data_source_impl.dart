@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:astronomy_picture/core/failure.dart';
 import 'package:astronomy_picture/data/datasources/today_apod/today_apod_data_source.dart';
@@ -17,7 +18,8 @@ class TodayApodDataSourceImpl implements TodayApodDataSource {
 
     try {
       response = await _client.get(Uri.parse(Environpment.urlBase));
-    } on Exception catch (e) {
+    } on Exception catch (e, s) {
+      log('error to loadin api', error: e, stackTrace: s);
       throw ApiFailure();
     }
 
