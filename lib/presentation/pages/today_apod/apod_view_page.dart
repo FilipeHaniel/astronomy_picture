@@ -18,11 +18,21 @@ class ApodViewPage extends StatefulWidget {
 class _ApodViewPageState extends State<ApodViewPage> {
   late Apod apod;
 
+  bool isImage = true;
+
   @override
   void initState() {
     apod = widget.apod;
 
+    checkMediaType();
+
     super.initState();
+  }
+
+  void checkMediaType() {
+    if (apod.mediaType == 'video') {
+      isImage = false;
+    }
   }
 
   @override
@@ -48,24 +58,7 @@ class _ApodViewPageState extends State<ApodViewPage> {
               Stack(
                 alignment: Alignment.topCenter,
                 children: [
-                  ClipRect(
-                    child: Container(
-                      height: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(apod.url ?? ''),
-                          fit: BoxFit.fitHeight,
-                        ),
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(30),
-                          bottomRight: Radius.circular(30),
-                        ),
-                        border: Border.all(
-                          color: CustomColors.white.withOpacity(.5),
-                        ),
-                      ),
-                    ),
-                  ),
+                  ClipRect(child: buildMediaType()),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(30, 350, 30, 0),
                     child: Container(
@@ -104,12 +97,14 @@ class _ApodViewPageState extends State<ApodViewPage> {
                               fontWeight: FontWeight.w900,
                             ),
                           ),
+                          const SizedBox(height: 10),
                           Text(
                             apod.explanation ?? '',
                             style: TextStyle(
                               color: CustomColors.white,
                             ),
                           ),
+                          const SizedBox(height: 10),
                           Text(
                             'by ${apod.copyright ?? 'NASA'}',
                             style: TextStyle(
@@ -157,5 +152,53 @@ class _ApodViewPageState extends State<ApodViewPage> {
         ),
       ),
     );
+  }
+
+  Widget buildMediaType() {
+    if (isImage) {
+      return GestureDetector(
+        child: Container(
+          height: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(apod.url ?? ''),
+              fit: BoxFit.fitHeight,
+            ),
+            borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(30),
+              bottomRight: Radius.circular(30),
+            ),
+            border: Border.all(
+              color: CustomColors.white.withOpacity(.5),
+            ),
+          ),
+        ),
+        onTap: () {},
+      );
+    } else {
+      return Container(
+        height: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(apod.thumbnailUrl ??
+                'https://spaceplace.nasa.gov/gallery-space/en/NGC2336-galaxy.en.jpg'),
+            fit: BoxFit.fitHeight,
+          ),
+          borderRadius: const BorderRadius.only(
+            bottomLeft: Radius.circular(30),
+            bottomRight: Radius.circular(30),
+          ),
+          border: Border.all(
+            color: CustomColors.white.withOpacity(.5),
+          ),
+        ),
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Video
+          ],
+        ),
+      );
+    }
   }
 }
