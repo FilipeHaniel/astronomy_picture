@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:astronomy_picture/custom_colors.dart';
 import 'package:astronomy_picture/domain/entities/apod.dart';
+import 'package:astronomy_picture/presentation/widgets/today_apod/apod_video.dart';
 import 'package:astronomy_picture/presentation/widgets/today_apod/apod_view_button.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +33,7 @@ class _ApodViewPageState extends State<ApodViewPage> {
   }
 
   void checkMediaType() {
-    if (apod.mediaType == 'video') {
+    if (apod.mediaType == 'video' || apod.mediaType == null) {
       isImage = false;
     }
   }
@@ -156,6 +159,8 @@ class _ApodViewPageState extends State<ApodViewPage> {
 
   Widget buildMediaType() {
     if (isImage) {
+      log('is image!!');
+
       return GestureDetector(
         child: Container(
           height: MediaQuery.of(context).size.width,
@@ -176,6 +181,8 @@ class _ApodViewPageState extends State<ApodViewPage> {
         onTap: () {},
       );
     } else {
+      log('is video!!');
+
       return Container(
         height: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
@@ -192,10 +199,10 @@ class _ApodViewPageState extends State<ApodViewPage> {
             color: CustomColors.white.withOpacity(.5),
           ),
         ),
-        child: const Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Video
+            ApodVideo(url: apod.url ?? ''),
           ],
         ),
       );
