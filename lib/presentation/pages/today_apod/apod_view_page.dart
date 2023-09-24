@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:astronomy_picture/custom_colors.dart';
 import 'package:astronomy_picture/domain/entities/apod.dart';
+import 'package:astronomy_picture/presentation/pages/core/see_full_image.dart';
 import 'package:astronomy_picture/presentation/widgets/today_apod/apod_video.dart';
 import 'package:astronomy_picture/presentation/widgets/today_apod/apod_view_button.dart';
 import 'package:flutter/material.dart';
@@ -186,7 +187,11 @@ class _ApodViewPageState extends State<ApodViewPage> {
             ),
           ),
         ),
-        onTap: () {},
+        onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) =>
+                    SeeFullImage(url: apod.hdurl ?? apod.url ?? ''))),
       );
     } else {
       log('is video!!');
