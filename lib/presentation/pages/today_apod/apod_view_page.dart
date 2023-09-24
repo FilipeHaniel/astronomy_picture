@@ -5,6 +5,8 @@ import 'package:astronomy_picture/domain/entities/apod.dart';
 import 'package:astronomy_picture/presentation/widgets/today_apod/apod_video.dart';
 import 'package:astronomy_picture/presentation/widgets/today_apod/apod_view_button.dart';
 import 'package:flutter/material.dart';
+import 'package:gallery_saver/gallery_saver.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ApodViewPage extends StatefulWidget {
   final Apod apod;
@@ -45,7 +47,13 @@ class _ApodViewPageState extends State<ApodViewPage> {
       appBar: AppBar(
         backgroundColor: Colors.white.withOpacity(0),
         elevation: 0,
-        actions: const [],
+        actions: [
+          PopupMenuButton(
+            icon: Icon(Icons.more_vert, color: CustomColors.white),
+            color: CustomColors.black,
+            itemBuilder: (context) => buildMenuButtons(),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -132,10 +140,10 @@ class _ApodViewPageState extends State<ApodViewPage> {
                 child: Row(
                   children: [
                     ApodViewButton(
-                      icon: Icons.hd,
-                      title: 'Image in HD',
+                      icon: Icons.open_in_browser,
+                      title: 'Show media',
                       description:
-                          'Images may be inclomplete! Tap here to view full image',
+                          'if media are not able on app, tap here to see on browser',
                       onTap: () {},
                     ),
                     const SizedBox(width: 15),
@@ -207,5 +215,57 @@ class _ApodViewPageState extends State<ApodViewPage> {
         ),
       );
     }
+  }
+
+  List<PopupMenuItem> buildMenuButtons() {
+    List<PopupMenuItem> list = [];
+
+    if (isImage) {
+      list.add(PopupMenuItem(
+        textStyle: TextStyle(color: CustomColors.white),
+        onTap: saveOnGallery,
+        child: const Text('Save Image on gallery'),
+      ));
+    }
+
+    list.addAll([
+      PopupMenuItem(
+        textStyle: TextStyle(color: CustomColors.white),
+        onTap: shareOnlyLink,
+        child: const Text('Shared media only'),
+      ),
+      PopupMenuItem(
+        textStyle: TextStyle(color: CustomColors.white),
+        onTap: shareAllContent,
+        child: const Text('Shared all content'),
+      ),
+    ]);
+
+    return list;
+  }
+
+  void saveOnGallery() {
+    if (isImage) {
+      GallerySaver.saveImage(apod.hdurl ?? apod.url ?? '').then((value) {
+        if (value == true) {
+          setState(() => showSnackBar('Image save on gallery!!'));
+        }
+      });
+    }
+  }
+
+  void shareOnlyLink() => Share.share(apod.hdurl ?? apod.url ?? '');
+
+  void shareAllContent() {
+    String link = apod.hdurl ?? apod.url ?? '';
+
+    Share.share(
+        '${apod.title}\n\n${apod.explanation}\n\nlink: $link\nby: ${apod.copyright}');
+  }
+
+  void showSnackBar(String msg) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+    });
   }
 }
