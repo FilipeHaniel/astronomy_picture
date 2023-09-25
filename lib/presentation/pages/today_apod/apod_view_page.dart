@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:astronomy_picture/core/date_convert.dart';
 import 'package:astronomy_picture/custom_colors.dart';
 import 'package:astronomy_picture/domain/entities/apod.dart';
 import 'package:astronomy_picture/presentation/pages/core/see_full_image.dart';
@@ -124,7 +125,7 @@ class _ApodViewPageState extends State<ApodViewPage> {
                             ),
                           ),
                           Text(
-                            'date: ${apod.date}',
+                            'date: ${DateConvert.dateToString(apod.date)} (YYYY-MM-DD)',
                             style: TextStyle(
                               color: CustomColors.white,
                             ),
