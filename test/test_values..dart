@@ -25,3 +25,8 @@ ApodModel Function() tApodModel = () => ApodModel(
       url: 'https://apod.nasa.gov/apod/image/0409/orion_seip.jpg',
       hdurl: 'https://apod.nasa.gov/apod/image/0409/orion_seip_big.jpg',
     );
+
+List<Apod> Function() tListApod = () => [tApod(), tApod(), tApod()];
+
+List<String> Function() tHistoryList =
+    () => ['2004-09-27', '2004-09-27', '2004-09-27'];

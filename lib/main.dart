@@ -17,6 +17,7 @@ class AstronomyPicture extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: CustomTheme.getTheme(),
+      debugShowCheckedModeBanner: false,
       home: const ApodTodayPage(),
     );
   }

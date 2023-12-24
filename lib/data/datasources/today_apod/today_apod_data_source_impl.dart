@@ -19,7 +19,7 @@ class TodayApodDataSourceImpl implements TodayApodDataSource {
     try {
       response = await _client.get(Uri.parse(Environpment.urlBase));
     } on Exception catch (e, s) {
-      log('error to loadin api', error: e, stackTrace: s);
+      log('error to loading api', error: e, stackTrace: s);
       throw ApiFailure();
     }
 

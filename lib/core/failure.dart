@@ -14,6 +14,15 @@ class NoConnection extends Failure {
 
 class ApiFailure extends Failure {
   @override
-  // TODO: implement msg
   String get msg => 'Sorry! It was not possible to access the Server';
+}
+
+class ConvertFailure extends Failure {
+  @override
+  String get msg => 'Sorry! your query is not in a right format';
+}
+
+class AccessLocalDataFailure extends Failure {
+  @override
+  String get msg => 'Sorry! there was problem accesing local data';
 }

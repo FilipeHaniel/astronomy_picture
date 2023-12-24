@@ -44,4 +44,5 @@ class ApodModel extends Apod {
       'thumbnailUrl': thumbnailUrl,
     };
   }
+  
 }
